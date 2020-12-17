@@ -97,6 +97,13 @@ trait MakesHttpRequests
      */
     private function request($verb, $uri, array $payload = [])
     {
+        $rawResponse = false;
+
+        if (isset($payload['rawResponse'])) {
+            $rawResponse = true;
+            unset($payload['rawResponse']);
+        }
+
         $response = $this->guzzle->request(
             $verb,
             $uri,
@@ -106,6 +113,8 @@ trait MakesHttpRequests
         if (!in_array($response->getStatusCode(), [200, 201])) {
             return $this->handleRequestError($response);
         }
+
+        if ($rawResponse) return $response;
 
         $responseBody = (string) $response->getBody();
 
