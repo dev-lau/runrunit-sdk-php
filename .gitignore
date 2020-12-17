@@ -1,0 +1,22 @@
+# Composer
+/vendor
+composer.lock
+
+# IDE
+/.idea
+*.sublime-project
+*.sublime-workspace
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+/.vscode
+.phpstorm.meta.php
+.ide_helper.php
+.ide_helper_models.php
+
+# Code Styling / Linting
+.php_cs.cache
+build
+
+# OS
+.DS_Store

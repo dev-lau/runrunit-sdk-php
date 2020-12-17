@@ -1,0 +1,40 @@
+{
+    "name": "dev-lau/runrunit-sdk-php",
+    "description": "SDK PHP (não oficial) para a API do RunRun.it (v1.0)",
+    "keywords": [
+        "runrunit",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "authors": [
+        {
+            "name": "Gabriel Lau",
+            "email": "code@gabriellau.dev",
+            "homepage": "https://gabriellau.dev/"
+        }
+    ],
+    "license": "MIT",
+    "type": "package",
+    "require": {
+        "php": "^7.2|^8.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^6.3.1|^7.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.3.1",
+        "phpunit/phpunit": "^8.4|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Devlau\\Runrunit\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
