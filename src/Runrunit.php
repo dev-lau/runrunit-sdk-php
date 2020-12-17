@@ -3,6 +3,7 @@
 namespace Devlau\Runrunit;
 
 use Devlau\Runrunit\Actions\ManagesBoards;
+use Devlau\Runrunit\Actions\ManagesComments;
 use Devlau\Runrunit\Actions\ManagesTasks;
 use GuzzleHttp\Client as HttpClient;
 
@@ -10,6 +11,7 @@ class Runrunit
 {
     use MakesHttpRequests,
         ManagesBoards,
+        ManagesComments,
         ManagesTasks;
 
     /**
