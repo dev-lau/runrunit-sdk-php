@@ -1,5 +1,5 @@
 {
-    "name": "dev-lau/runrunit-sdk-php",
+    "name": "devlau/runrunit",
     "description": "SDK PHP (não oficial) para a API do RunRun.it (v1.0)",
     "keywords": [
         "runrunit",
