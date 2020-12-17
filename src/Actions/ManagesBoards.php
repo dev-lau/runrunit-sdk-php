@@ -20,13 +20,13 @@ trait ManagesBoards
     }
 
     /**
-     * Find board by id.
+     * Get board by id.
      *
      * @param int $id
      *
-     * @return array
+     * @return Board
      */
-    public function findBoard($id)
+    public function board($id)
     {
         $boards = $this->transformCollection(
             $this->get("boards/{$id}"),
