@@ -5,6 +5,7 @@ namespace Devlau\Runrunit;
 use Devlau\Runrunit\Actions\ManagesBoards;
 use Devlau\Runrunit\Actions\ManagesComments;
 use Devlau\Runrunit\Actions\ManagesDocuments;
+use Devlau\Runrunit\Actions\ManagesProjects;
 use Devlau\Runrunit\Actions\ManagesTasks;
 use Devlau\Runrunit\Actions\ManagesTaskStatus;
 use GuzzleHttp\Client as HttpClient;
@@ -15,6 +16,7 @@ class Runrunit
         ManagesBoards,
         ManagesComments,
         ManagesDocuments,
+        ManagesProjects,
         ManagesTasks,
         ManagesTaskStatus;
 
