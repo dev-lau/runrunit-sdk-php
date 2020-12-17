@@ -2,11 +2,13 @@
 
 namespace Devlau\Runrunit;
 
+use Devlau\Runrunit\Actions\ManagesBoards;
 use GuzzleHttp\Client as HttpClient;
 
 class Runrunit
 {
-    use MakesHttpRequests;
+    use MakesHttpRequests,
+        ManagesBoards;
 
     /**
      * The Runrunit base url.
