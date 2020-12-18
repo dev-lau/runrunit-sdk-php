@@ -110,7 +110,7 @@ trait MakesHttpRequests
             $payload
         );
 
-        if (!in_array($response->getStatusCode(), [200, 201])) {
+        if ($response->getStatusCode() >= 400) {
             return $this->handleRequestError($response);
         }
 
