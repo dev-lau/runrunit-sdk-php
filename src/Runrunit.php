@@ -67,6 +67,16 @@ class Runrunit
     }
 
     /**
+     * Get the complete base uri
+     *
+     * @return string
+     */
+    public function getBaseUri()
+    {
+        return "{$this->baseUrl}/{$this->version}";
+    }
+
+    /**
      * Setup the http client
      *
      * @param string $appKey
@@ -76,7 +86,7 @@ class Runrunit
     public function setHttpClient($appKey, $userToken, HttpClient $guzzle = null): void
     {
         $this->guzzle = $guzzle ?: new HttpClient([
-            'base_uri' => "{$this->baseUrl}/{$this->version}",
+            'base_uri' => $this->getBaseUri(),
             'http_errors' => false,
             'headers' => [
                 'Content-Type' => 'application/json',
