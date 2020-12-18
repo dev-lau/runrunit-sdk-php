@@ -2,7 +2,7 @@
 
 namespace Devlau\Runrunit\Resources;
 
-class Resource
+class Resource implements \JsonSerializable, \Serializable
 {
     /**
      * The resource attributes.
@@ -38,9 +38,11 @@ class Resource
      *
      * @return void
      */
-    private function fill()
+    private function fill(array $data = null)
     {
-        foreach ($this->attributes as $key => $value) {
+        $sourceData = $data ?? $this->attributes;
+
+        foreach ($sourceData as $key => $value) {
             $key = $this->camelCase($key);
 
             if (property_exists($this, $key)) {
@@ -70,17 +72,61 @@ class Resource
     }
 
     /**
-     * Transform the items of the collection to the given class.
+     * Convert the model instance to an array.
      *
-     * @param  array  $collection
-     * @param  string  $class
-     * @param  array  $extraData
      * @return array
      */
-    protected function transformCollection(array $collection, $class, array $extraData = [])
+    public function toArray()
     {
-        return array_map(function ($data) use ($class, $extraData) {
-            return new $class($data + $extraData, $this->runrunit);
-        }, $collection);
+        $attributes = [];
+
+        foreach ($this->attributes as $property => $value) {
+            $key = $this->camelCase($property);
+
+            if (property_exists($this, $key)) {
+                $attributes[$key] = $this->{$key};
+            }
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * Convert the model instance to JSON.
+     *
+     * @param  int  $options
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function toJson($options = 0)
+    {
+        $json = json_encode($this->jsonSerialize(), $options);
+
+        if (JSON_ERROR_NONE !== json_last_error()) {
+            throw new \RuntimeException(json_last_error_msg());
+        }
+
+        return $json;
+    }
+
+    /**
+     * Convert the object into something JSON serializable.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    public function serialize()
+    {
+        return serialize($this->jsonSerialize());
+    }
+
+    public function unserialize($data)
+    {
+        $this->fill(unserialize($data));
     }
 }
