@@ -127,6 +127,8 @@ class Resource implements \JsonSerializable, \Serializable
 
     public function unserialize($data)
     {
-        $this->fill(unserialize($data));
+        $attributes = unserialize($data);
+        $this->attributes = $attributes;
+        $this->fill();
     }
 }
