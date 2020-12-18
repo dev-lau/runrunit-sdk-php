@@ -30,12 +30,9 @@ trait ManagesComments
      */
     public function comment($id)
     {
-        $comments = $this->transformCollection(
-            $this->get("comments/{$id}"),
-            Comment::class
-        );
+        $comment = $this->get("comments/{$id}");
 
-        return array_shift($comments);
+        return new Comment($comment, $this);
     }
 
     /**
@@ -48,14 +45,11 @@ trait ManagesComments
      */
     public function createComment($id, $text)
     {
-        $comments = $this->transformCollection(
-            $this->post('comments', [
-                'task_id' => $id,
-                'text' => $text,
-            ]),
-            Comment::class
-        );
+        $comment = $this->post('comments', [
+            'task_id' => $id,
+            'text' => $text,
+        ]);
 
-        return array_shift($comments);
+        return new Comment($comment, $this);
     }
 }

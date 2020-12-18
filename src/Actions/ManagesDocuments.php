@@ -30,12 +30,9 @@ trait ManagesDocuments
      */
     public function document($id)
     {
-        $documents = $this->transformCollection(
-            $this->get("documents/{$id}"),
-            Document::class
-        );
+        $document = $this->get("documents/{$id}");
 
-        return array_shift($documents);
+        return new Document($document, $this);
     }
 
     /**

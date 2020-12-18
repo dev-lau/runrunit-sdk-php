@@ -28,12 +28,9 @@ trait ManagesTasks
      */
     public function task($id)
     {
-        $tasks = $this->transformCollection(
-            $this->get("tasks/{$id}"),
-            Task::class
-        );
+        $task = $this->get("tasks/{$id}");
 
-        return array_shift($tasks);
+        return new Task($task, $this);
     }
 
     /**
@@ -46,14 +43,11 @@ trait ManagesTasks
      */
     public function changeTaskStatus($id, $taskStatusId)
     {
-        $documents = $this->transformCollection(
-            $this->post("tasks/{$id}/change_status", [
-                'task_status_id' => $taskStatusId,
-            ]),
-            Task::class
-        );
+        $task = $this->post("tasks/{$id}/change_status", [
+            'task_status_id' => $taskStatusId,
+        ]);
 
-        return array_shift($documents);
+        return new Task($task, $this);
     }
 
     /**
@@ -65,11 +59,8 @@ trait ManagesTasks
      */
     public function createTask(array $data)
     {
-        $tasks = $this->transformCollection(
-            $this->post('tasks', ['task' => $data]),
-            Task::class
-        );
+        $task = $this->post('tasks', ['task' => $data]);
 
-        return array_shift($tasks);
+        return new Task($task, $this);
     }
 }

@@ -32,12 +32,9 @@ trait ManagesProjects
      */
     public function project($id, array $query = null)
     {
-        $projects = $this->transformCollection(
-            $this->get("projects/{$id}", ['query' => $query]),
-            Project::class
-        );
+        $project = $this->get("projects/{$id}", ['query' => $query]);
 
-        return array_shift($projects);
+        return new Project($project, $this);
     }
 
     /**
@@ -50,12 +47,12 @@ trait ManagesProjects
      */
     public function projectInvolvedUsers($id, array $query = null)
     {
-        $projects = $this->transformCollection(
+        $users = $this->transformCollection(
             $this->get("projects/${id}/involved_users", ['query' => $query]),
             User::class
         );
 
-        return $projects;
+        return $users;
     }
 
     /**
@@ -67,12 +64,9 @@ trait ManagesProjects
      */
     public function createProject(array $data)
     {
-        $projects = $this->transformCollection(
-            $this->post('projects', ['project' => $data]),
-            Project::class
-        );
+        $project = $this->post('projects', ['project' => $data]);
 
-        return array_shift($projects);
+        return new Project($project, $this);
     }
 
     /**
@@ -84,15 +78,12 @@ trait ManagesProjects
      */
     public function projectDescription($id)
     {
-        $descriptions = $this->transformCollection(
-            $this->get('descriptions', [
-                'query' => [
-                    'project_id' => $id,
-                ],
-            ]),
-            ProjectDescription::class
-        );
+        $description = $this->get('descriptions', [
+            'query' => [
+                'project_id' => $id,
+            ],
+        ]);
 
-        return array_shift($descriptions);
+        return new ProjectDescription($description, $this);
     }
 }

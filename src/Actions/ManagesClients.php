@@ -28,12 +28,9 @@ trait ManagesClients
      */
     public function client($id)
     {
-        $clients = $this->transformCollection(
-            $this->get("clients/{$id}"),
-            Client::class
-        );
+        $client = $this->get("clients/{$id}");
 
-        return array_shift($clients);
+        return new Client($client, $this);
     }
 
     /**
@@ -56,11 +53,8 @@ trait ManagesClients
             $data = $payload;
         }
 
-        $clients = $this->transformCollection(
-            $this->post('clients', ['client' => $data]),
-            Client::class
-        );
+        $client = $this->post('clients', ['client' => $data]);
 
-        return array_shift($clients);
+        return new Client($client, $this);
     }
 }

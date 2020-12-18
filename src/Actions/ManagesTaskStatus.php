@@ -30,12 +30,9 @@ trait ManagesTaskStatus
      */
     public function taskStatus($id)
     {
-        $statuses = $this->transformCollection(
-            $this->get("task_statuses/{$id}"),
-            TaskStatus::class
-        );
+        $status = $this->get("task_statuses/{$id}");
 
-        return array_shift($statuses);
+        return new TaskStatus($status, $this);
     }
 
     /**
@@ -49,11 +46,8 @@ trait ManagesTaskStatus
     {
         $data = !is_array($payload) ? ['name' => $payload] : $payload;
 
-        $boards = $this->transformCollection(
-            $this->post('task_statuses', ['task_status' => $data]),
-            TaskStatus::class
-        );
+        $status = $this->post('task_statuses', ['task_status' => $data]);
 
-        return array_shift($boards);
+        return new TaskStatus($status, $this);
     }
 }

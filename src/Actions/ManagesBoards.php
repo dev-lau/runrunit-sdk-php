@@ -20,20 +20,17 @@ trait ManagesBoards
     }
 
     /**
-     * Find board by id.
+     * Get board by id.
      *
      * @param int $id
      *
-     * @return array
+     * @return Board
      */
-    public function findBoard($id)
+    public function board($id)
     {
-        $boards = $this->transformCollection(
-            $this->get("boards/{$id}"),
-            Board::class
-        );
+        $board = $this->get("boards/{$id}");
 
-        return array_shift($boards);
+        return new Board($board, $this);
     }
 
     /**
@@ -45,11 +42,8 @@ trait ManagesBoards
      */
     public function createBoard($name)
     {
-        $boards = $this->transformCollection(
-            $this->post('boards', ['name' => $name]),
-            Board::class
-        );
+        $board = $this->post('boards', ['name' => $name]);
 
-        return array_shift($boards);
+        return new Board($board, $this);
     }
 }
