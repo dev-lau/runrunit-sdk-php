@@ -44,7 +44,9 @@ trait ManagesTasks
     public function changeTaskStatus($id, $taskStatusId)
     {
         $task = $this->post("tasks/{$id}/change_status", [
-            'task_status_id' => $taskStatusId,
+            'json' => [
+                'task_status_id' => $taskStatusId,
+            ]
         ]);
 
         return new Task($task, $this);
@@ -59,7 +61,11 @@ trait ManagesTasks
      */
     public function createTask(array $data)
     {
-        $task = $this->post('tasks', ['task' => $data]);
+        $task = $this->post('tasks', [
+            'json' => [
+                'task' => $data
+            ]
+        ]);
 
         return new Task($task, $this);
     }

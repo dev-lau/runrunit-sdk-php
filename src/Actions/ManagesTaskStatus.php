@@ -46,7 +46,11 @@ trait ManagesTaskStatus
     {
         $data = !is_array($payload) ? ['name' => $payload] : $payload;
 
-        $status = $this->post('task_statuses', ['task_status' => $data]);
+        $status = $this->post('task_statuses', [
+            'json' => [
+                'task_status' => $data
+            ]
+        ]);
 
         return new TaskStatus($status, $this);
     }

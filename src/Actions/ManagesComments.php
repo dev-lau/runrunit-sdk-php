@@ -46,8 +46,10 @@ trait ManagesComments
     public function createComment($id, $text)
     {
         $comment = $this->post('comments', [
-            'task_id' => $id,
-            'text' => $text,
+            'json' => [
+                'task_id' => $id,
+                'text' => $text,
+            ]
         ]);
 
         return new Comment($comment, $this);

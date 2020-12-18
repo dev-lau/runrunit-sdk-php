@@ -64,7 +64,11 @@ trait ManagesProjects
      */
     public function createProject(array $data)
     {
-        $project = $this->post('projects', ['project' => $data]);
+        $project = $this->post('projects', [
+            'json' => [
+                'project' => $data
+            ]
+        ]);
 
         return new Project($project, $this);
     }

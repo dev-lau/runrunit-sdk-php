@@ -42,7 +42,11 @@ trait ManagesBoards
      */
     public function createBoard($name)
     {
-        $board = $this->post('boards', ['name' => $name]);
+        $board = $this->post('boards', [
+            'json' => [
+                'name' => $name
+            ]
+        ]);
 
         return new Board($board, $this);
     }

@@ -53,7 +53,11 @@ trait ManagesClients
             $data = $payload;
         }
 
-        $client = $this->post('clients', ['client' => $data]);
+        $client = $this->post('clients', [
+            'json' => [
+                'client' => $data
+            ]
+        ]);
 
         return new Client($client, $this);
     }
