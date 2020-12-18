@@ -88,6 +88,7 @@ class Runrunit
         $this->guzzle = $guzzle ?: new HttpClient([
             'base_uri' => $this->getBaseUri(),
             'http_errors' => false,
+            'allow_redirects' => false,
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
