@@ -117,8 +117,11 @@ trait MakesHttpRequests
         if ($rawResponse) return $response;
 
         $responseBody = (string) $response->getBody();
+        $decodedResponse = json_decode($responseBody, true);
 
-        return json_decode($responseBody, true) ?: $responseBody;
+        return json_last_error() === JSON_ERROR_NONE
+            ? $decodedResponse
+            : $responseBody;
     }
 
     /**
