@@ -4,6 +4,7 @@ namespace Devlau\Runrunit\Actions;
 
 use Devlau\Runrunit\Resources\Project;
 use Devlau\Runrunit\Resources\ProjectDescription;
+use Devlau\Runrunit\Resources\User;
 
 trait ManagesProjects
 {
