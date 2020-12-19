@@ -75,6 +75,25 @@ trait ManagesProjects
     }
 
     /**
+     * Update a project.
+     *
+     * @param int $id Project ID
+     * @param array $data
+     *
+     * @return Project
+     */
+    public function updateProject($id, array $data)
+    {
+        $project = $this->put("projects/{$id}", [
+            'json' => [
+                'project' => $data
+            ]
+        ]);
+
+        return new Project($project, $this);
+    }
+
+    /**
      * Get a project description
      *
      * @param int $id Project ID
