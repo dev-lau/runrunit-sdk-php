@@ -9,6 +9,7 @@ use Devlau\Runrunit\Actions\ManagesDocuments;
 use Devlau\Runrunit\Actions\ManagesProjects;
 use Devlau\Runrunit\Actions\ManagesTasks;
 use Devlau\Runrunit\Actions\ManagesTaskStatus;
+use Devlau\Runrunit\Actions\ManagesUsers;
 use GuzzleHttp\Client as HttpClient;
 
 class Runrunit
@@ -20,7 +21,8 @@ class Runrunit
         ManagesDocuments,
         ManagesProjects,
         ManagesTasks,
-        ManagesTaskStatus;
+        ManagesTaskStatus,
+        ManagesUsers;
 
     /**
      * The Runrunit base url.
