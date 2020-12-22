@@ -7,6 +7,7 @@ use Devlau\Runrunit\Actions\ManagesClients;
 use Devlau\Runrunit\Actions\ManagesComments;
 use Devlau\Runrunit\Actions\ManagesDocuments;
 use Devlau\Runrunit\Actions\ManagesProjects;
+use Devlau\Runrunit\Actions\ManagesReports;
 use Devlau\Runrunit\Actions\ManagesTasks;
 use Devlau\Runrunit\Actions\ManagesTaskStatus;
 use Devlau\Runrunit\Actions\ManagesUsers;
@@ -20,6 +21,7 @@ class Runrunit
         ManagesComments,
         ManagesDocuments,
         ManagesProjects,
+        ManagesReports,
         ManagesTasks,
         ManagesTaskStatus,
         ManagesUsers;
