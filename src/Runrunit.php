@@ -10,6 +10,7 @@ use Devlau\Runrunit\Actions\ManagesProjects;
 use Devlau\Runrunit\Actions\ManagesReports;
 use Devlau\Runrunit\Actions\ManagesTasks;
 use Devlau\Runrunit\Actions\ManagesTaskStatus;
+use Devlau\Runrunit\Actions\ManagesTaskTypes;
 use Devlau\Runrunit\Actions\ManagesUsers;
 use GuzzleHttp\Client as HttpClient;
 
@@ -24,6 +25,7 @@ class Runrunit
         ManagesReports,
         ManagesTasks,
         ManagesTaskStatus,
+        ManagesTaskTypes,
         ManagesUsers;
 
     /**
