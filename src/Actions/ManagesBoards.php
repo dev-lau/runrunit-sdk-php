@@ -11,10 +11,10 @@ trait ManagesBoards
      *
      * @return array
      */
-    public function boards()
+    public function boards(array $query = null)
     {
         return $this->transformCollection(
-            $this->get('boards'),
+            $this->get('boards', ['query' => $query]),
             Board::class
         );
     }

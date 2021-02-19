@@ -13,10 +13,10 @@ trait ManagesDocuments
      *
      * @return array
      */
-    public function documents($id)
+    public function documents($id, array $query = null)
     {
         return $this->transformCollection(
-            $this->get("tasks/{$id}/documents"),
+            $this->get("tasks/{$id}/documents", ['query' => $query]),
             Document::class
         );
     }

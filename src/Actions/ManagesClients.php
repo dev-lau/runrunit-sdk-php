@@ -11,10 +11,10 @@ trait ManagesClients
      *
      * @return array
      */
-    public function clients()
+    public function clients(array $query = null)
     {
         return $this->transformCollection(
-            $this->get('clients'),
+            $this->get('clients', ['query' => $query]),
             Client::class
         );
     }
