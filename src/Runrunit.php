@@ -3,6 +3,7 @@
 namespace Devlau\Runrunit;
 
 use Devlau\Runrunit\Actions\ManagesBoards;
+use Devlau\Runrunit\Actions\ManagesBoardStages;
 use Devlau\Runrunit\Actions\ManagesClients;
 use Devlau\Runrunit\Actions\ManagesComments;
 use Devlau\Runrunit\Actions\ManagesDocuments;
@@ -18,6 +19,7 @@ class Runrunit
 {
     use MakesHttpRequests,
         ManagesBoards,
+        ManagesBoardStages,
         ManagesClients,
         ManagesComments,
         ManagesDocuments,
