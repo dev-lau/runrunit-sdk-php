@@ -17,10 +17,11 @@ class TimeoutException extends Exception
      * Create a new exception instance.
      *
      * @param $output
+     * @param $code
      */
-    public function __construct($output)
+    public function __construct($output, $code = 0)
     {
-        parent::__construct('Script timed out while waiting for the process to complete.');
+        parent::__construct('Script timed out while waiting for the process to complete.', $code);
 
         $this->output = $output;
     }

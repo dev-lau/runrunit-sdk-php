@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Devlau\Runrunit\Exceptions\NotFoundException;
 use Devlau\Runrunit\Exceptions\ValidationException;
 use Devlau\Runrunit\Exceptions\FailedActionException;
+use Devlau\Runrunit\Exceptions\RateLimitException;
 
 /**
  * Class MakesHttpRequests.
@@ -136,18 +137,27 @@ trait MakesHttpRequests
      */
     private function handleRequestError(ResponseInterface $response)
     {
+        $code = $response->getStatusCode();
+
         if ($response->getStatusCode() == 422) {
-            throw new ValidationException(json_decode((string) $response->getBody(), true));
+            throw new ValidationException(json_decode((string) $response->getBody(), true), $code);
+        }
+
+        if ($response->getStatusCode() == 429) {
+            $remaining = $response->getHeader('RateLimit-Remaining');
+            $reset = $response->getHeader('RateLimit-Reset');
+
+            throw new RateLimitException($remaining, $reset, $code);
         }
 
         if ($response->getStatusCode() == 404) {
-            throw new NotFoundException();
+            throw new NotFoundException($code);
         }
 
         if ($response->getStatusCode() == 400) {
-            throw new FailedActionException((string) $response->getBody());
+            throw new FailedActionException((string) $response->getBody(), $code);
         }
 
-        throw new \Exception((string) $response->getBody());
+        throw new \Exception((string) $response->getBody(), $code);
     }
 }
