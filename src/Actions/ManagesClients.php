@@ -61,4 +61,30 @@ trait ManagesClients
 
         return new Client($client, $this);
     }
+
+    /**
+     * Updates a client.
+     *
+     * @param mixed $payload The name of the client or array with data
+     *
+     * @return Client
+     */
+    public function updateClient($id, $payload)
+    {
+        if (!is_array($payload)) {
+            $data = [
+                "name" => $payload,
+            ];
+        } else {
+            $data = $payload;
+        }
+
+        $client = $this->put("clients/{$id}", [
+            'json' => [
+                'client' => $data
+            ]
+        ]);
+
+        return new Client($client, $this);
+    }
 }
