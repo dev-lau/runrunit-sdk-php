@@ -147,7 +147,11 @@ trait MakesHttpRequests
             $remaining = $response->getHeader('RateLimit-Remaining');
             $reset = $response->getHeader('RateLimit-Reset');
 
-            throw new RateLimitException($remaining, $reset, $code);
+            throw new RateLimitException(
+                is_array($remaining) ? current($remaining) : 0,
+                is_array($reset) ? current($reset) : 'unknown',
+                $code
+            );
         }
 
         if ($response->getStatusCode() == 404) {
