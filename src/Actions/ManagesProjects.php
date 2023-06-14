@@ -49,7 +49,7 @@ trait ManagesProjects
     public function projectInvolvedUsers($id, array $query = null)
     {
         $users = $this->transformCollection(
-            $this->get("projects/${id}/involved_users", ['query' => $query]),
+            $this->get("projects/{$id}/involved_users", ['query' => $query]),
             User::class
         );
 
