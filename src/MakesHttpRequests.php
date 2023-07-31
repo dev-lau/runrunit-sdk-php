@@ -2,11 +2,13 @@
 
 namespace Devlau\Runrunit;
 
-use Psr\Http\Message\ResponseInterface;
-use Devlau\Runrunit\Exceptions\NotFoundException;
-use Devlau\Runrunit\Exceptions\ValidationException;
 use Devlau\Runrunit\Exceptions\FailedActionException;
+use Devlau\Runrunit\Exceptions\InternalServerException;
+use Devlau\Runrunit\Exceptions\NotFoundException;
 use Devlau\Runrunit\Exceptions\RateLimitException;
+use Devlau\Runrunit\Exceptions\UnauthorizedException;
+use Devlau\Runrunit\Exceptions\ValidationException;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class MakesHttpRequests.
@@ -18,14 +20,13 @@ trait MakesHttpRequests
     /**
      * Make a GET request to Runrunit and return the response.
      *
-     * @param  string $uri
-     * @param array $payload
+     * @param  string  $uri
+     * @param  array  $payload
+     * @return mixed
      *
      * @throws \Devlau\Runrunit\Exceptions\FailedActionException
      * @throws \Devlau\Runrunit\Exceptions\NotFoundException
      * @throws \Devlau\Runrunit\Exceptions\ValidationException
-     *
-     * @return mixed
      */
     public function get($uri, $payload = [])
     {
@@ -35,14 +36,12 @@ trait MakesHttpRequests
     /**
      * Make a POST request to Runrunit and return the response.
      *
-     * @param  string $uri
-     * @param  array $payload
+     * @param  string  $uri
+     * @return mixed
      *
      * @throws \Devlau\Runrunit\Exceptions\FailedActionException
      * @throws \Devlau\Runrunit\Exceptions\NotFoundException
      * @throws \Devlau\Runrunit\Exceptions\ValidationException
-     *
-     * @return mixed
      */
     public function post($uri, array $payload = [])
     {
@@ -52,14 +51,12 @@ trait MakesHttpRequests
     /**
      * Make a PUT request to Runrunit and return the response.
      *
-     * @param  string $uri
-     * @param  array $payload
+     * @param  string  $uri
+     * @return mixed
      *
      * @throws \Devlau\Runrunit\Exceptions\FailedActionException
      * @throws \Devlau\Runrunit\Exceptions\NotFoundException
      * @throws \Devlau\Runrunit\Exceptions\ValidationException
-     *
-     * @return mixed
      */
     public function put($uri, array $payload = [])
     {
@@ -69,14 +66,12 @@ trait MakesHttpRequests
     /**
      * Make a DELETE request to Runrunit and return the response.
      *
-     * @param  string $uri
-     * @param  array $payload
+     * @param  string  $uri
+     * @return mixed
      *
      * @throws \Devlau\Runrunit\Exceptions\FailedActionException
      * @throws \Devlau\Runrunit\Exceptions\NotFoundException
      * @throws \Devlau\Runrunit\Exceptions\ValidationException
-     *
-     * @return mixed
      */
     public function delete($uri, array $payload = [])
     {
@@ -86,15 +81,13 @@ trait MakesHttpRequests
     /**
      * Make request to Runrunit and return the response.
      *
-     * @param  string $verb
-     * @param  string $uri
-     * @param  array $payload
+     * @param  string  $verb
+     * @param  string  $uri
+     * @return mixed
      *
      * @throws \Devlau\Runrunit\Exceptions\FailedActionException
      * @throws \Devlau\Runrunit\Exceptions\NotFoundException
      * @throws \Devlau\Runrunit\Exceptions\ValidationException
-     *
-     * @return mixed
      */
     public function request($verb, $uri, array $payload = [])
     {
@@ -115,7 +108,9 @@ trait MakesHttpRequests
             return $this->handleRequestError($response);
         }
 
-        if ($rawResponse) return $response;
+        if ($rawResponse) {
+            return $response;
+        }
 
         $responseBody = (string) $response->getBody();
         $decodedResponse = json_decode($responseBody, true);
@@ -126,24 +121,26 @@ trait MakesHttpRequests
     }
 
     /**
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @return void
      *
      * @throws \Devlau\Runrunit\Exceptions\ValidationException
      * @throws \Devlau\Runrunit\Exceptions\NotFoundException
      * @throws \Devlau\Runrunit\Exceptions\FailedActionException
      * @throws \Exception
-     *
-     * @return void
      */
     private function handleRequestError(ResponseInterface $response)
     {
         $code = $response->getStatusCode();
 
-        if ($response->getStatusCode() == 422) {
+        if ($code >= 500) {
+            throw new InternalServerException((string) $response->getBody(), $code);
+        }
+
+        if ($code == 422) {
             throw new ValidationException(json_decode((string) $response->getBody(), true), $code);
         }
 
-        if ($response->getStatusCode() == 429) {
+        if ($code == 429) {
             $remaining = $response->getHeader('RateLimit-Remaining');
             $reset = $response->getHeader('RateLimit-Reset');
 
@@ -154,11 +151,15 @@ trait MakesHttpRequests
             );
         }
 
-        if ($response->getStatusCode() == 404) {
+        if ($code == 404) {
             throw new NotFoundException($code);
         }
 
-        if ($response->getStatusCode() == 400) {
+        if ($code == 401) {
+            throw new UnauthorizedException((string) $response->getBody(), $code);
+        }
+
+        if ($code == 400) {
             throw new FailedActionException((string) $response->getBody(), $code);
         }
 
