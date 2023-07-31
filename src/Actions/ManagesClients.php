@@ -22,8 +22,7 @@ trait ManagesClients
     /**
      * Find client by id.
      *
-     * @param int $id
-     *
+     * @param  int  $id
      * @return Client
      */
     public function client($id)
@@ -36,18 +35,17 @@ trait ManagesClients
     /**
      * Create new client.
      *
-     * @param mixed $payload The name of the client or array with data
-     *
+     * @param  mixed  $payload The name of the client or array with data
      * @return Client
      */
     public function createClient($payload)
     {
         if (!is_array($payload)) {
             $data = [
-                "budgeted_cost_month" => 0.0,
-                "budgeted_hours_month" => 0,
-                "is_visible" => true,
-                "name" => $payload,
+                'budgeted_cost_month' => 0.0,
+                'budgeted_hours_month' => 0,
+                'is_visible' => true,
+                'name' => $payload,
             ];
         } else {
             $data = $payload;
@@ -55,8 +53,8 @@ trait ManagesClients
 
         $client = $this->post('clients', [
             'json' => [
-                'client' => $data
-            ]
+                'client' => $data,
+            ],
         ]);
 
         return new Client($client, $this);
@@ -65,15 +63,14 @@ trait ManagesClients
     /**
      * Updates a client.
      *
-     * @param mixed $payload The name of the client or array with data
-     *
+     * @param  mixed  $payload The name of the client or array with data
      * @return Client
      */
     public function updateClient($id, $payload)
     {
         if (!is_array($payload)) {
             $data = [
-                "name" => $payload,
+                'name' => $payload,
             ];
         } else {
             $data = $payload;
@@ -81,10 +78,17 @@ trait ManagesClients
 
         $client = $this->put("clients/{$id}", [
             'json' => [
-                'client' => $data
-            ]
+                'client' => $data,
+            ],
         ]);
 
         return new Client($client, $this);
+    }
+
+    public function deleteClient($id): bool
+    {
+        $this->delete("clients/{$id}");
+
+        return true;
     }
 }
