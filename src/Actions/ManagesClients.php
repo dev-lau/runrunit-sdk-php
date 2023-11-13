@@ -3,6 +3,8 @@
 namespace Devlau\Runrunit\Actions;
 
 use Devlau\Runrunit\Resources\Client;
+use Devlau\Runrunit\Resources\ProjectGroup;
+use Devlau\Runrunit\Resources\ProjectSubGroup;
 
 trait ManagesClients
 {
@@ -90,5 +92,25 @@ trait ManagesClients
         $this->delete("clients/{$id}");
 
         return true;
+    }
+
+    public function projectGroups($clientId, array $query = null)
+    {
+        $users = $this->transformCollection(
+            $this->get("clients/{$clientId}/project_groups", ['query' => $query]),
+            ProjectGroup::class
+        );
+
+        return $users;
+    }
+
+    public function projectSubGroups($clientId, array $query = null)
+    {
+        $users = $this->transformCollection(
+            $this->get("clients/{$clientId}/project_sub_groups", ['query' => $query]),
+            ProjectSubGroup::class
+        );
+
+        return $users;
     }
 }
